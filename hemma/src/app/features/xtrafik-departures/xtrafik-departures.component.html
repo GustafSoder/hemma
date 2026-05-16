@@ -51,7 +51,7 @@
         @for (dep of displayed(); track dep.name + dep.time) {
           <span class="ticker-entry" [class.ticker-entry--cancelled]="isCancelled(dep)">
             <span class="ticker-entry__badge" [style.background]="accentColor()">{{ dep.Product.num }}</span>
-            <span class="ticker-entry__destination">{{ dep.direction }}</span>
+            <span class="ticker-entry__destination">{{ cleanDirection(dep.direction) }}</span>
             <span
               class="ticker-entry__time"
               [class.ticker-entry__time--delayed]="isDelayed(dep)"
@@ -62,7 +62,7 @@
         @for (dep of displayed(); track 'b' + dep.name + dep.time) {
           <span class="ticker-entry" [class.ticker-entry--cancelled]="isCancelled(dep)" aria-hidden="true">
             <span class="ticker-entry__badge" [style.background]="accentColor()">{{ dep.Product.num }}</span>
-            <span class="ticker-entry__destination">{{ dep.direction }}</span>
+            <span class="ticker-entry__destination">{{ cleanDirection(dep.direction) }}</span>
             <span
               class="ticker-entry__time"
               [class.ticker-entry__time--delayed]="isDelayed(dep)"

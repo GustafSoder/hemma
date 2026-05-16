@@ -101,6 +101,13 @@ export class XtrafikDeparturesComponent implements OnDestroy {
     return diff <= 0 ? 'Nu' : `${diff} min`;
   }
 
+  cleanDirection(dir: string): string {
+    return dir
+      .replace(/\s+T-bana.*/i, '')
+      .replace(/\s*\([^)]+kn\)/gi, '')
+      .trim();
+  }
+
   isCancelled(dep: ResRobotDeparture): boolean {
     return dep.cancelled === true;
   }
