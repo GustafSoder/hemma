@@ -33,8 +33,28 @@ export interface ResRobotDeparture {
   rtTime?: string;
   rtDate?: string;
   cancelled?: boolean;
+  JourneyDetailRef?: { ref: string };
+  prognosisType?: string;
 }
 
 export interface ResRobotDepartureResponse {
   Departure?: ResRobotDeparture[];
+}
+
+export interface ResRobotArrival {
+  Product: ResRobotProduct;
+  name: string;
+  stop: string;
+  time: string;
+  date: string;
+  origin: string;
+  rtTime?: string;
+  rtDate?: string;
+  cancelled?: boolean;
+  JourneyDetailRef?: { ref: string };
+  prognosisType?: string;
+}
+
+export interface ResRobotArrivalResponse {
+  Arrival?: ResRobotArrival[];
 }

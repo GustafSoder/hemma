@@ -202,3 +202,38 @@
   color: var(--color-text-muted);
   font-size: 0.875rem;
 }
+
+// ── Prediction banner ────────────────────────────
+
+.prediction {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding: 0.625rem 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  &--ontime {
+    background: color-mix(in srgb, #22c55e 12%, transparent);
+    border: 1px solid color-mix(in srgb, #22c55e 35%, transparent);
+    color: #22c55e;
+  }
+
+  &--late {
+    background: color-mix(in srgb, #f97316 12%, transparent);
+    border: 1px solid color-mix(in srgb, #f97316 35%, transparent);
+    color: #f97316;
+  }
+
+  &--cancelled {
+    background: color-mix(in srgb, #d93025 12%, transparent);
+    border: 1px solid color-mix(in srgb, #d93025 35%, transparent);
+    color: #d93025;
+  }
+}
+
+.prediction__icon {
+  flex-shrink: 0;
+}

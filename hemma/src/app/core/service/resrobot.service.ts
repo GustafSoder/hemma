@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/enironment';
-import { ResRobotDepartureResponse, ResRobotLocationResponse } from '../models/resrobot.models';
+import { ResRobotArrivalResponse, ResRobotDepartureResponse, ResRobotLocationResponse } from '../models/resrobot.models';
 
 @Injectable({ providedIn: 'root' })
 export class ResrobotService {
@@ -23,6 +23,16 @@ export class ResrobotService {
       `${this.BASE_URL}/departureBoard`,
       { params },
     );
+  }
+
+  getArrivals(stopId: string, maxJourneys = 20, duration = 120): Observable<ResRobotArrivalResponse> {
+    const params = new HttpParams()
+      .set('id', stopId)
+      .set('maxJourneys', maxJourneys)
+      .set('duration', duration)
+      .set('format', 'json')
+      .set('accessId', this.API_KEY);
+    return this.http.get<ResRobotArrivalResponse>(`${this.BASE_URL}/arrivalBoard`, { params });
   }
 
   findStop(query: string): Observable<ResRobotLocationResponse> {
