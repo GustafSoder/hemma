@@ -1,1 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
+@use "./app/misc/themes/svc/theme-variables.scss";
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+}

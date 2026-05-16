@@ -1,0 +1,217 @@
+.departures {
+  max-width: 100%;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.departures__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.departures__title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.metro-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #e30613;
+  flex-shrink: 0;
+}
+
+.departures__station {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1.2;
+}
+
+.departures__subtitle {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.departures__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.departures__updated {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.departures__refresh {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  padding: 0.25rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  transition:
+    color 0.15s,
+    background 0.15s;
+
+  &:hover:not(:disabled) {
+    color: var(--color-text);
+    background: var(--color-surface);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+// ── Ticker board ───────────────────────────────
+
+.ticker-board {
+  position: relative;
+  overflow: hidden;
+  background: #111;
+  border-radius: 10px;
+  padding: 1rem 0;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 3rem;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  &::before {
+    left: 0;
+    background: linear-gradient(to right, #111, transparent);
+  }
+
+  &::after {
+    right: 0;
+    background: linear-gradient(to left, #111, transparent);
+  }
+
+  &--loading {
+    padding: 1rem;
+  }
+}
+
+.ticker-track {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  // ── Ticker speed: lower duration = faster scroll ──
+  animation: ticker-scroll 8s linear infinite;
+}
+
+@keyframes ticker-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.ticker-entry {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 2rem;
+
+  &::after {
+    content: '·';
+    color: #444;
+    margin-left: 1rem;
+    font-size: 1.25rem;
+  }
+
+  &--cancelled {
+    opacity: 0.4;
+  }
+}
+
+.ticker-entry__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: #e30613;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+.ticker-entry__destination {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #f5f5f5;
+  letter-spacing: 0.02em;
+}
+
+.ticker-entry__time {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #ffd700;
+  min-width: 4rem;
+
+  &--delayed {
+    color: #ff9800;
+  }
+
+  &--cancelled {
+    color: #d93025;
+    text-decoration: line-through;
+  }
+}
+
+// ── States ────────────────────────────────────
+
+.skeleton {
+  height: 3rem;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.departures__error {
+  padding: 1rem 1.25rem;
+  background: color-mix(in srgb, #d93025 10%, transparent);
+  border: 1px solid color-mix(in srgb, #d93025 30%, transparent);
+  border-radius: 10px;
+  color: #d93025;
+  font-size: 0.875rem;
+}
+
+.departures__empty {
+  padding: 2rem;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
