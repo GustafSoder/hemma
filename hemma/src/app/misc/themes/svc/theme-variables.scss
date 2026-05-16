@@ -1,40 +1,30 @@
-// ─────────────────────────────────────────────
-// GLOBAL THEME VARIABLES
-// Add this to your styles.scss (or styles.css)
-//
-// Every CSS variable here changes automatically
-// when <body class="dark"> is set.
-// ─────────────────────────────────────────────
-
-// ── LIGHT (default) ───────────────────────────
+// ── LIGHT ─────────────────────────────────────
 :root {
-  --color-bg: #eef2f7;
-  --color-bg-subtle: #e2e9f3;
-  --color-surface: #d6e0ee;
-  --color-border: #b8c8de;
-  --color-text: #0d1f35;
-  --color-text-muted: #4a6380;
-  --color-primary: #1a4a7a;
+  --color-bg:           #f3f6fb;
+  --color-bg-subtle:    #e8edf6;
+  --color-surface:      #ffffff;
+  --color-border:       #d0d9e8;
+  --color-text:         #0d1526;
+  --color-text-muted:   #5c6a84;
+  --color-primary:      #1a4a7a;
   --color-primary-text: #ffffff;
 }
 
-// ── DARK — Angular dark theme ─────────────────
+// ── DARK ──────────────────────────────────────
 body.dark {
-  --color-bg: #1a1f2e;
-  --color-bg-subtle: #222840;
-  --color-surface: #2a3152;
-  --color-border: #3a4468;
-  --color-text: #e8eaf6;
-  --color-text-muted: #7986cb;
-  --color-primary: #dd0031;
+  --color-bg:           #0e1117;
+  --color-bg-subtle:    #161b27;
+  --color-surface:      #1c2336;
+  --color-border:       #252d42;
+  --color-text:         #e6eaf5;
+  --color-text-muted:   #68748f;
+  --color-primary:      #dd0031;
   --color-primary-text: #ffffff;
 }
 
-// ── APPLY TO BASE ELEMENTS ────────────────────
+// ── BASE ──────────────────────────────────────
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
-  transition:
-    background-color 0.25s ease,
-    color 0.25s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }

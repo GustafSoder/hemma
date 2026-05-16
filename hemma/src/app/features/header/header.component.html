@@ -1,8 +1,18 @@
 <header class="header">
-  <div class="header__logo">Hemma</div>
-  <nav class="header__nav">
-    <a class="header__link" routerLink="/sl" routerLinkActive="header__link--active">SL</a>
-    <a class="header__link" routerLink="/xtrafik" routerLinkActive="header__link--active">X-Trafik</a>
-  </nav>
-  <app-theme-toggle></app-theme-toggle>
+  <div class="header__brand">
+    <span class="header__logo">hemma</span>
+  </div>
+
+  <div class="header__clock">
+    <span class="header__time">{{ timeStr() }}</span>
+    <span class="header__date">{{ dateStr() }}</span>
+  </div>
+
+  <div class="header__controls">
+    <nav class="header__nav">
+      <a class="header__link" routerLink="/sl" routerLinkActive="header__link--active">SL</a>
+      <a class="header__link" routerLink="/xtrafik" routerLinkActive="header__link--active">X-Trafik</a>
+    </nav>
+    <app-theme-toggle />
+  </div>
 </header>

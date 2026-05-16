@@ -8,7 +8,7 @@ import {
   input,
   OnDestroy,
 } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { DatePipe, SlicePipe } from '@angular/common';
 import { ResrobotService } from '../../core/service/resrobot.service';
 import { ResRobotDeparture } from '../../core/models/resrobot.models';
 
@@ -17,7 +17,7 @@ type PredictionStatus = 'ontime' | 'late' | 'cancelled';
 @Component({
   selector: 'app-xtrafik-departures',
   standalone: true,
-  imports: [DatePipe],
+  imports: [DatePipe, SlicePipe],
   templateUrl: './xtrafik-departures.component.html',
   styleUrl: './xtrafik-departures.component.scss',
 })
