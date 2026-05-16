@@ -10,10 +10,11 @@ export class ResrobotService {
   private readonly BASE_URL = 'https://api.resrobot.se/v2.1';
   private readonly API_KEY = environment.resrobotApiKey;
 
-  getDepartures(stopId: string, maxJourneys = 20, directionId = ''): Observable<ResRobotDepartureResponse> {
+  getDepartures(stopId: string, maxJourneys = 20, directionId = '', duration = 60): Observable<ResRobotDepartureResponse> {
     let params = new HttpParams()
       .set('id', stopId)
       .set('maxJourneys', maxJourneys)
+      .set('duration', duration)
       .set('format', 'json')
       .set('accessId', this.API_KEY);
     if (directionId) params = params.set('direction', directionId);

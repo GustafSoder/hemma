@@ -27,6 +27,7 @@ export class XtrafikDeparturesComponent implements OnDestroy {
   directionId     = input('');
   filterDirection = input('');  // display label only (e.g. "T-Centralen")
   accentColor     = input('#007dc5');
+  duration        = input(60);
 
   departures = signal<ResRobotDeparture[]>([]);
   loading    = signal(false);
@@ -80,7 +81,7 @@ export class XtrafikDeparturesComponent implements OnDestroy {
     this.loading.set(true);
     this.error.set(null);
 
-    this.resrobot.getDepartures(id, 20, this.directionId()).subscribe({
+    this.resrobot.getDepartures(id, 20, this.directionId(), this.duration()).subscribe({
       next: (res) => {
         this.departures.set(res.Departure ?? []);
         this.lastUpdated.set(new Date());
