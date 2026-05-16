@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { XtrafikDeparturesComponent } from '../../features/xtrafik-departures/xtrafik-departures.component';
 import { ResrobotService } from '../../core/service/resrobot.service';
@@ -10,7 +10,7 @@ import { ResrobotService } from '../../core/service/resrobot.service';
   templateUrl: './xtrafik.component.html',
   styleUrl: './xtrafik.component.scss',
 })
-export class XtrafikComponent {
+export class XtrafikComponent implements OnInit {
   private resrobot = inject(ResrobotService);
 
   fromInput = 'Söderhamn';
@@ -22,6 +22,10 @@ export class XtrafikComponent {
 
   searching  = signal(false);
   searchError = signal<string | null>(null);
+
+  ngOnInit(): void {
+    this.search();
+  }
 
   search(): void {
     if (!this.fromInput.trim()) return;
