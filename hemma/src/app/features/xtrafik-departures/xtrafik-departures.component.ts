@@ -23,20 +23,17 @@ export class XtrafikDeparturesComponent implements OnDestroy {
   private resrobot = inject(ResrobotService);
 
   stopId          = input('');
-  stationName     = input('Söderhamn');
-  filterDirection = input('Hudiksvall');  // partial match on direction field
+  stationName     = input('');
+  directionId     = input('');
+  filterDirection = input('');  // display label only (e.g. "T-Centralen")
+  accentColor     = input('#007dc5');
 
   departures = signal<ResRobotDeparture[]>([]);
   loading    = signal(false);
   error      = signal<string | null>(null);
   lastUpdated = signal<Date | null>(null);
 
-  filtered = computed(() => {
-    const dir = this.filterDirection().toLowerCase();
-    return this.departures().filter(d =>
-      !dir || d.direction.toLowerCase().includes(dir)
-    );
-  });
+  filtered = computed(() => this.departures());
 
   displayed = signal<ResRobotDeparture[]>([]);
 
@@ -83,7 +80,7 @@ export class XtrafikDeparturesComponent implements OnDestroy {
     this.loading.set(true);
     this.error.set(null);
 
-    this.resrobot.getDepartures(id).subscribe({
+    this.resrobot.getDepartures(id, 20, this.directionId()).subscribe({
       next: (res) => {
         this.departures.set(res.Departure ?? []);
         this.lastUpdated.set(new Date());

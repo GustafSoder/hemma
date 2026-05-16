@@ -1,10 +1,12 @@
 <section class="departures">
   <div class="departures__header">
     <div class="departures__title">
-      <span class="xtrafik-dot"></span>
+      <span class="xtrafik-dot" [style.background]="accentColor()"></span>
       <div>
         <h2 class="departures__station">{{ stationName() }}</h2>
-        <p class="departures__subtitle">Regionaltåg · mot {{ filterDirection() }}</p>
+        @if (filterDirection()) {
+          <p class="departures__subtitle">mot {{ filterDirection() }}</p>
+        }
       </div>
     </div>
     <div class="departures__meta">
@@ -48,7 +50,7 @@
       <div class="ticker-track">
         @for (dep of displayed(); track dep.name + dep.time) {
           <span class="ticker-entry" [class.ticker-entry--cancelled]="isCancelled(dep)">
-            <span class="ticker-entry__badge">{{ dep.Product.num }}</span>
+            <span class="ticker-entry__badge" [style.background]="accentColor()">{{ dep.Product.num }}</span>
             <span class="ticker-entry__destination">{{ dep.direction }}</span>
             <span
               class="ticker-entry__time"
@@ -59,7 +61,7 @@
         }
         @for (dep of displayed(); track 'b' + dep.name + dep.time) {
           <span class="ticker-entry" [class.ticker-entry--cancelled]="isCancelled(dep)" aria-hidden="true">
-            <span class="ticker-entry__badge">{{ dep.Product.num }}</span>
+            <span class="ticker-entry__badge" [style.background]="accentColor()">{{ dep.Product.num }}</span>
             <span class="ticker-entry__destination">{{ dep.direction }}</span>
             <span
               class="ticker-entry__time"

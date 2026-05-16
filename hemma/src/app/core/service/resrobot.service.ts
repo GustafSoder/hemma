@@ -10,12 +10,13 @@ export class ResrobotService {
   private readonly BASE_URL = 'https://api.resrobot.se/v2.1';
   private readonly API_KEY = environment.resrobotApiKey;
 
-  getDepartures(stopId: string, maxJourneys = 20): Observable<ResRobotDepartureResponse> {
-    const params = new HttpParams()
+  getDepartures(stopId: string, maxJourneys = 20, directionId = ''): Observable<ResRobotDepartureResponse> {
+    let params = new HttpParams()
       .set('id', stopId)
       .set('maxJourneys', maxJourneys)
       .set('format', 'json')
-      .set('key', this.API_KEY);
+      .set('accessId', this.API_KEY);
+    if (directionId) params = params.set('direction', directionId);
 
     return this.http.get<ResRobotDepartureResponse>(
       `${this.BASE_URL}/departureBoard`,
@@ -28,7 +29,7 @@ export class ResrobotService {
       .set('input', query)
       .set('format', 'json')
       .set('lang', 'sv')
-      .set('key', this.API_KEY);
+      .set('accessId', this.API_KEY);
 
     return this.http.get<ResRobotLocationResponse>(
       `${this.BASE_URL}/location.name`,
