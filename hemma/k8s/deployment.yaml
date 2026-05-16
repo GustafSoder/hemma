@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hemma
+  labels:
+    app: hemma
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hemma
+  template:
+    metadata:
+      labels:
+        app: hemma
+    spec:
+      containers:
+        - name: hemma
+          image: sudda/hemma:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 50m
+              memory: 32Mi
+            limits:
+              cpu: 200m
+              memory: 64Mi
