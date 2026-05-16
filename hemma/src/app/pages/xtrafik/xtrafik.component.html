@@ -1,0 +1,42 @@
+<div class="page">
+  <form class="search-form" (ngSubmit)="search()">
+    <div class="search-form__fields">
+      <div class="search-form__field">
+        <label class="search-form__label" for="xt-from">Från</label>
+        <input
+          id="xt-from"
+          class="search-form__input"
+          type="text"
+          placeholder="t.ex. Söderhamn"
+          [(ngModel)]="fromInput"
+          name="from"
+          autocomplete="off"
+        />
+      </div>
+      <div class="search-form__field">
+        <label class="search-form__label" for="xt-to">Mot (riktning)</label>
+        <input
+          id="xt-to"
+          class="search-form__input"
+          type="text"
+          placeholder="t.ex. Hudiksvall"
+          [(ngModel)]="toInput"
+          name="to"
+          autocomplete="off"
+        />
+      </div>
+      <button class="search-form__btn" type="submit" [disabled]="searching()">
+        {{ searching() ? 'Söker…' : 'Sök' }}
+      </button>
+    </div>
+    @if (searchError()) {
+      <p class="search-form__error">{{ searchError() }}</p>
+    }
+  </form>
+
+  <app-xtrafik-departures
+    [stopId]="stopId()"
+    [stationName]="stationName()"
+    [filterDirection]="filterDir()"
+  />
+</div>

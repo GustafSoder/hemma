@@ -4,7 +4,8 @@ import {
   signal,
   computed,
   effect,
-  OnInit,
+  untracked,
+  input,
   OnDestroy,
 } from '@angular/core';
 import { DatePipe } from '@angular/common';
@@ -18,10 +19,14 @@ import { Departure, StopDeviation } from '../../core/models/sl-transport.models'
   templateUrl: './departures.component.html',
   styleUrl: './departures.component.scss',
 })
-export class DeparturesComponent implements OnInit, OnDestroy {
+export class DeparturesComponent implements OnDestroy {
   private slTransport = inject(SlTransportService);
 
-  private readonly SITE_ID = 9192; // Karlaplan
+  // Configurable inputs — parent (SL page) drives these from the search form
+  siteId          = input(9192);
+  stationName     = input('Karlaplan');
+  filterDestination = input('Norsborg');   // partial match against departure.destination
+  filterLine      = input('13');           // empty string = no line filter
 
   departures = signal<Departure[]>([]);
   deviations = signal<StopDeviation[]>([]);
@@ -29,46 +34,47 @@ export class DeparturesComponent implements OnInit, OnDestroy {
   error = signal<string | null>(null);
   lastUpdated = signal<Date | null>(null);
 
-  tcentralen = computed(() =>
-    this.departures().filter(
-      (d) =>
-        d.line.transport_mode === 'METRO' &&
-        d.line.designation === '13' &&
-        d.destination === 'Norsborg',
-    ),
-  );
-
-  // Up to 3 trains shown at a time. Updated by the effect below.
-  displayed = signal<Departure[]>([]);
-
-  constructor() {
-    effect(() => {
-      const fresh = this.tcentralen();
-      const current = this.displayed();
-
-      // Keep trains still present in fresh data (not yet departed)
-      const retained = current.filter(c =>
-        fresh.some(f => f.journey.id === c.journey.id)
-      );
-      // Fill remaining slots with new trains not already shown
-      const added = fresh.filter(f =>
-        !retained.some(r => r.journey.id === f.journey.id)
-      );
-      const next = [...retained, ...added].slice(0, 3);
-
-      // Only write signal if trains actually changed — keeps animation alive
-      const changed =
-        next.length !== current.length ||
-        next.some((d, i) => d.journey.id !== current[i]?.journey.id);
-      if (changed) this.displayed.set(next);
+  filtered = computed(() => {
+    const dest = this.filterDestination().toLowerCase();
+    const line = this.filterLine();
+    return this.departures().filter(d => {
+      if (d.line.transport_mode !== 'METRO') return false;
+      if (line && d.line.designation !== line) return false;
+      if (dest && !d.destination.toLowerCase().includes(dest)) return false;
+      return true;
     });
-  }
+  });
+
+  // Up to 3 trains shown — updated by rolling queue effect below
+  displayed = signal<Departure[]>([]);
 
   private refreshInterval?: ReturnType<typeof setInterval>;
 
-  ngOnInit(): void {
-    this.load();
-    this.refreshInterval = setInterval(() => this.load(), 60_000);
+  constructor() {
+    // Reload whenever siteId changes (covers initial load too)
+    effect(() => {
+      this.siteId(); // track input
+      untracked(() => {
+        clearInterval(this.refreshInterval);
+        this.load();
+        this.refreshInterval = setInterval(() => this.load(), 60_000);
+      });
+    });
+
+    // Rolling queue: retain trains still in fresh data, append new ones, cap at 3
+    effect(() => {
+      const fresh = this.filtered();
+      const current = this.displayed();
+
+      const retained = current.filter(c => fresh.some(f => f.journey.id === c.journey.id));
+      const added = fresh.filter(f => !retained.some(r => r.journey.id === f.journey.id));
+      const next = [...retained, ...added].slice(0, 3);
+
+      const changed =
+        next.length !== current.length ||
+        next.some((d, i) => d.journey.id !== current[i]?.journey.id);
+      if (changed) untracked(() => this.displayed.set(next));
+    });
   }
 
   ngOnDestroy(): void {
@@ -79,7 +85,7 @@ export class DeparturesComponent implements OnInit, OnDestroy {
     this.loading.set(true);
     this.error.set(null);
 
-    this.slTransport.getDepartures(this.SITE_ID).subscribe({
+    this.slTransport.getDepartures(this.siteId()).subscribe({
       next: (res) => {
         this.departures.set(res.departures ?? []);
         this.deviations.set(res.stop_deviations ?? []);

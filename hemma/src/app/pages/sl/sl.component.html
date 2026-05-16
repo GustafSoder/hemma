@@ -1,0 +1,43 @@
+<div class="page">
+  <form class="search-form" (ngSubmit)="search()">
+    <div class="search-form__fields">
+      <div class="search-form__field">
+        <label class="search-form__label" for="sl-from">Från</label>
+        <input
+          id="sl-from"
+          class="search-form__input"
+          type="text"
+          placeholder="t.ex. Karlaplan"
+          [(ngModel)]="fromInput"
+          name="from"
+          autocomplete="off"
+        />
+      </div>
+      <div class="search-form__field">
+        <label class="search-form__label" for="sl-to">Till (destination)</label>
+        <input
+          id="sl-to"
+          class="search-form__input"
+          type="text"
+          placeholder="t.ex. Norsborg"
+          [(ngModel)]="toInput"
+          name="to"
+          autocomplete="off"
+        />
+      </div>
+      <button class="search-form__btn" type="submit" [disabled]="searching()">
+        {{ searching() ? 'Söker…' : 'Sök' }}
+      </button>
+    </div>
+    @if (searchError()) {
+      <p class="search-form__error">{{ searchError() }}</p>
+    }
+  </form>
+
+  <app-departures
+    [siteId]="siteId()"
+    [stationName]="stationName()"
+    [filterDestination]="filterDest()"
+    filterLine=""
+  />
+</div>

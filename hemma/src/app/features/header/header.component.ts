@@ -7,7 +7,7 @@ import { ThemeService } from '../../misc/themes/svc/theme.service';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [ThemeToggleComponent],
+  imports: [ThemeToggleComponent, RouterLink, RouterLinkActive],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })

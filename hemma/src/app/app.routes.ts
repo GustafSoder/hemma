@@ -1,7 +1,10 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './pages/home/home.component';
+import { SlComponent } from './pages/sl/sl.component';
+import { XtrafikComponent } from './pages/xtrafik/xtrafik.component';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: '**', redirectTo: 'home' }, // wildcard fallback
+  { path: '', redirectTo: 'sl', pathMatch: 'full' },
+  { path: 'sl', component: SlComponent },
+  { path: 'xtrafik', component: XtrafikComponent },
+  { path: '**', redirectTo: 'sl' },
 ];

@@ -1,10 +1,10 @@
 <section class="departures">
   <div class="departures__header">
     <div class="departures__title">
-      <span class="metro-dot"></span>
+      <span class="xtrafik-dot"></span>
       <div>
         <h2 class="departures__station">{{ stationName() }}</h2>
-        <p class="departures__subtitle">Tunnelbana · mot {{ filterDestination() }}</p>
+        <p class="departures__subtitle">Regionaltåg · mot {{ filterDirection() }}</p>
       </div>
     </div>
     <div class="departures__meta">
@@ -25,7 +25,11 @@
     </div>
   </div>
 
-  @if (loading() && !displayed().length) {
+  @if (!stopId()) {
+    <div class="departures__empty">Ange en avgångsstation ovan och tryck Sök.</div>
+  }
+
+  @if (stopId() && loading() && !displayed().length) {
     <div class="ticker-board ticker-board--loading">
       <div class="skeleton"></div>
     </div>
@@ -35,33 +39,33 @@
     <div class="departures__error">{{ error() }}</div>
   }
 
-  @if (!loading() && !error() && !displayed().length) {
+  @if (stopId() && !loading() && !error() && !displayed().length) {
     <div class="departures__empty">Inga avgångar hittades.</div>
   }
 
   @if (displayed().length) {
     <div class="ticker-board">
       <div class="ticker-track">
-        @for (dep of displayed(); track dep.journey.id) {
+        @for (dep of displayed(); track dep.name + dep.time) {
           <span class="ticker-entry" [class.ticker-entry--cancelled]="isCancelled(dep)">
-            <span class="ticker-entry__badge">{{ dep.line.designation }}</span>
-            <span class="ticker-entry__destination">{{ dep.destination }}</span>
+            <span class="ticker-entry__badge">{{ dep.Product.num }}</span>
+            <span class="ticker-entry__destination">{{ dep.direction }}</span>
             <span
               class="ticker-entry__time"
               [class.ticker-entry__time--delayed]="isDelayed(dep)"
               [class.ticker-entry__time--cancelled]="isCancelled(dep)"
-            >{{ dep.display }}</span>
+            >{{ minutesUntil(dep) }}</span>
           </span>
         }
-        @for (dep of displayed(); track 'b' + dep.journey.id) {
+        @for (dep of displayed(); track 'b' + dep.name + dep.time) {
           <span class="ticker-entry" [class.ticker-entry--cancelled]="isCancelled(dep)" aria-hidden="true">
-            <span class="ticker-entry__badge">{{ dep.line.designation }}</span>
-            <span class="ticker-entry__destination">{{ dep.destination }}</span>
+            <span class="ticker-entry__badge">{{ dep.Product.num }}</span>
+            <span class="ticker-entry__destination">{{ dep.direction }}</span>
             <span
               class="ticker-entry__time"
               [class.ticker-entry__time--delayed]="isDelayed(dep)"
               [class.ticker-entry__time--cancelled]="isCancelled(dep)"
-            >{{ dep.display }}</span>
+            >{{ minutesUntil(dep) }}</span>
           </span>
         }
       </div>

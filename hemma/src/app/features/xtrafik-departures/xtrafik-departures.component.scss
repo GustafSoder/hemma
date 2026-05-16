@@ -1,7 +1,6 @@
 .departures {
   max-width: 100%;
-  margin: 2rem auto;
-  padding: 0 1rem;
+  padding: 0;
 }
 
 .departures__header {
@@ -17,11 +16,11 @@
   gap: 0.75rem;
 }
 
-.metro-dot {
+.xtrafik-dot {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: #e30613;
+  background: #007dc5;
   flex-shrink: 0;
 }
 
@@ -59,9 +58,7 @@
   border-radius: 6px;
   display: flex;
   align-items: center;
-  transition:
-    color 0.15s,
-    background 0.15s;
+  transition: color 0.15s, background 0.15s;
 
   &:hover:not(:disabled) {
     color: var(--color-text);
@@ -119,12 +116,8 @@
 }
 
 @keyframes ticker-scroll {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 
 .ticker-entry {
@@ -150,14 +143,15 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
+  padding: 0 0.5rem;
   height: 2rem;
-  border-radius: 50%;
-  background: #e30613;
+  border-radius: 6px;
+  background: #007dc5;
   color: #fff;
   font-weight: 700;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .ticker-entry__destination {
@@ -173,14 +167,8 @@
   color: #ffd700;
   min-width: 4rem;
 
-  &--delayed {
-    color: #ff9800;
-  }
-
-  &--cancelled {
-    color: #d93025;
-    text-decoration: line-through;
-  }
+  &--delayed { color: #ff9800; }
+  &--cancelled { color: #d93025; text-decoration: line-through; }
 }
 
 // ── States ────────────────────────────────────
@@ -194,12 +182,8 @@
 }
 
 @keyframes shimmer {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 .departures__error {
